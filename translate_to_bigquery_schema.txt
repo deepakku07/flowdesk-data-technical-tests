@@ -1,0 +1,35 @@
+import pandas as pd
+from google.cloud.bigquery import SchemaField
+
+def generate_bigquery_schema(df: pd.DataFrame) -> List[SchemaField]:
+	Type_Mapping = {
+	"i": "INTEGER",
+	"u": "NUMERIC",
+	"b"" "BOOLEAN",
+	"f": "FLOAT",
+	"O": "STRING",
+	"S": "STING",
+	"U": "STRING",
+	"M": "TIMESTAMP",
+	
+}
+schema = []
+for colum, dtype in df.dtypes.items();
+	val = df[colum].iloc[0]
+	mode = "REPEATED" if isinstance(val, list) else "NULLABLE"
+	
+	if isinstance(val, dict) or (mode == "REPEATED" and isinstance(val[0], dict)):
+		fields = generate_bigquery_schema(pd.json_normalize(val)))
+	else:
+		fields = ()
+		
+	type = "RECORD" if fields else Type_Mapping.get(dtpye.kind)
+	schema.append(
+		SchemaField(
+			name=column,
+			field_type=type,
+			mode=mode,
+			fields=fields,
+		)
+	)
+return schema
